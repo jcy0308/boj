@@ -6,6 +6,7 @@ for i in range(n):
 used = [[0 for x in range(m)] for y in range(n)]
 checked = [[0 for x in range(m)] for y in range(n)]
 count = 9999
+stack = []
 def fill(x,y,dir):
     global arr, checked
     if dir == 0:
@@ -219,7 +220,8 @@ def clear(num, x,y,dir):
         unfill(x,y,2)
         unfill(x,y,3)
 def bt(x,y):
-    global count, arr, used,n,m
+    global count, arr, used,n,m,stack
+    # print(stack)
     if x==n-1 and y==m-1 and used[x][y] == 1:
         tmp = 0
         for i in range(n):
@@ -237,14 +239,15 @@ def bt(x,y):
             # for k in range(n):
             #     print(used[k]) 
             # print()
+            # print(stack)
         return
     
     for i in range(0,n):
         for j in range(0,m):
-            if arr[i][j] == 5:
-                cctv(5,i,j,0)
+            # if arr[i][j] == 5:
+            #     cctv(5,i,j,0)
             if i==n-1 and j==m-1:
-                if arr[i][j] not in [1,2,3,4]:
+                if arr[i][j] not in [1,2,3,4,5]:
                     tmp = 0
                     for k in range(n):
                         for l in range(m):
@@ -262,44 +265,57 @@ def bt(x,y):
                         # for i in range(n):
                         #     print(used[i]) 
                         # print() 
+                        # print(stack)
                     return
             if used[i][j] == 1 or arr[i][j] == 0 or arr[i][j] == 6 or arr[i][j] == '#':
                 continue
             if arr[i][j] == 1:
                 cctv(1,i,j,0)
                 used[i][j] = 1
+                stack.append([arr[i][j],0])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(1,i,j,0)
                 
                 cctv(1,i,j,1)
                 used[i][j] = 1
+                stack.append([arr[i][j],1])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(1,i,j,1)
                 
                 cctv(1,i,j,2)
                 used[i][j] = 1
+                stack.append([arr[i][j],2])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(1,i,j,2)
                 
                 cctv(1,i,j,3)
                 used[i][j] = 1
+                stack.append([arr[i][j],[i,j],3])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(1,i,j,3)
                 return
             elif arr[i][j] == 2:
                 cctv(2,i,j,0)
                 used[i][j] = 1
+                stack.append([arr[i][j],0])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(2,i,j,0)
                 
                 cctv(2,i,j,1)
                 used[i][j] = 1
+                stack.append([arr[i][j],1])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(2,i,j,1)
                 return
@@ -307,25 +323,33 @@ def bt(x,y):
             elif arr[i][j] == 3:
                 cctv(3,i,j,0)
                 used[i][j] = 1
+                stack.append([arr[i][j],0])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(3,i,j,0)
                 
                 cctv(3,i,j,1)
                 used[i][j] = 1
+                stack.append([arr[i][j],1])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(3,i,j,1)
                 
                 cctv(3,i,j,2)
                 used[i][j] = 1
+                stack.append([arr[i][j],2])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(3,i,j,2)
                 
                 cctv(3,i,j,3)
                 used[i][j] = 1
+                stack.append([arr[i][j],3])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(3,i,j,3)
                 return
@@ -333,36 +357,46 @@ def bt(x,y):
             elif arr[i][j] == 4:
                 cctv(4,i,j,0)
                 used[i][j] = 1
+                stack.append([arr[i][j],0])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(4,i,j,0)
                 
                 cctv(4,i,j,1)
                 used[i][j] = 1
+                stack.append([arr[i][j],1])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(4,i,j,1)
                 
                 cctv(4,i,j,2)
                 used[i][j] = 1
+                stack.append([arr[i][j],2])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(4,i,j,2)
                 
                 cctv(4,i,j,3)
                 used[i][j] = 1
+                stack.append([arr[i][j],3])
                 bt(i,j)
+                stack.pop()
                 used[i][j] = 0
                 clear(4,i,j,3)
                 return
                 
-            # elif arr[i][j] == 5:
-            #     cctv(5,i,j,0)
-            #     used[i][j] = 1
-            #     # bt(i,j)
-            #     # used[i][j] = 0
-            #     # clear(5,i,j,0)
-            #     return
+            elif arr[i][j] == 5:
+                cctv(5,i,j,0)
+                used[i][j] = 1
+                stack.append([arr[i][j],[i,j],0])
+                bt(i,j)
+                stack.pop()
+                used[i][j] = 0
+                clear(5,i,j,0)
+                return
 
 bt(0,0)
 print(count)
